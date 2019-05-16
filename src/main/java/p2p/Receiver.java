@@ -1,6 +1,7 @@
-package helloworld;
+package p2p;
 
 import com.rabbitmq.client.*;
+import connection.RmqConnection;
 
 import java.io.IOException;
 
@@ -9,23 +10,11 @@ import java.io.IOException;
  * @date 2019/5/15 17:30
  */
 public class Receiver {
-    private final static String QUEUE_NAME = "hello2";
+    private final static String QUEUE_NAME = "hello";
 
     public static void main(String[] argv) throws Exception {
         //打开链接和通道
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setUsername("guest");
-        factory.setPassword("guest");
-        factory.setHost("192.168.193.155");
-        factory.setPort(5672);
-        factory.setVirtualHost("/");
-        factory.setConnectionTimeout(600000); // in milliseconds
-        factory.setRequestedHeartbeat(60); // in seconds
-        factory.setHandshakeTimeout(6000); // in milliseconds
-        factory.setRequestedChannelMax(5);
-        factory.setNetworkRecoveryInterval(500);
-
-        Connection connection = factory.newConnection();
+        Connection connection = RmqConnection.getConsumerConnection();
         Channel channel = connection.createChannel();
 
         //声明一个存在的队列用来取消息
