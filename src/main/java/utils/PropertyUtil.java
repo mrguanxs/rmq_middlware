@@ -14,16 +14,25 @@ import java.util.Properties;
  */
 public class PropertyUtil {
     private static Logger logger = LoggerFactory.getLogger(PropertyUtil.class);
-    
+
     public static Properties getProperties(String classPath){
         Properties properties = null;
+        InputStream resourceAsStream = null;
         try {
             properties=new Properties();
-            InputStream resourceAsStream = PropertyUtil.class.getClass().getResourceAsStream(classPath);
+            resourceAsStream = PropertyUtil.class.getClass().getResourceAsStream(classPath);
             properties.load(resourceAsStream);
-            resourceAsStream.close();
+
         } catch (IOException e) {
             logger.error("获取" + classPath + "文件信息失败：" + e.getMessage());
+        } finally {
+            if (resourceAsStream != null){
+                try {
+                    resourceAsStream.close();
+                } catch (IOException e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
         }
         return properties;
     }
