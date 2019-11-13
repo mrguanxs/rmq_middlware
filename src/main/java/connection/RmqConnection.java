@@ -60,14 +60,14 @@ public class RmqConnection {
         if (connection == null){
             connection = getConnection();
         }
-        return getConnection();
+        return connection;
     }
 
     public static Connection getConsumerConnection(){
         if (connection == null){
             connection = getConnection();
         }
-        return getConnection();
+        return connection;
     }
 
 }

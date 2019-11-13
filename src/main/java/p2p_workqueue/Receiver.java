@@ -3,6 +3,8 @@ package p2p_workqueue;
 import com.rabbitmq.client.*;
 import connection.RmqConnection;
 
+import java.io.IOException;
+
 /**
  * @author mrguanxs@163.com
  * @date 2019/5/15 17:30
@@ -61,6 +63,11 @@ public class Receiver {
 //                    throws IOException {
 //                String message = new String(body, "UTF-8");
 //                System.out.println(" [x] Received '" + message + "'");
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 //            }
 //        };
 //        channel.basicConsume(Sender.QUEUE_NAME, true, consumer);
