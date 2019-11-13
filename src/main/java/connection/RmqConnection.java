@@ -27,7 +27,6 @@ public class RmqConnection {
         factory.setUsername(RmqConfig.RabbitmqUsername);
         factory.setPassword(RmqConfig.RabbitmqPassword);
         factory.setVirtualHost(RmqConfig.RabbitmqVirtualHost);
-        Connection connection = null;
         try {
             connection = factory.newConnection();
         } catch (IOException e) {
