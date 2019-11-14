@@ -1,4 +1,4 @@
-package work_mode.work_queue;
+package work_mode.queue.work_queue;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -27,7 +27,7 @@ public class WorkQueueModel {
      * @param message       消息内容
      */
     public static void workQueueSend(String queueName, boolean durable, String message) {
-        LOGGER.info("准备发送点对点消息，queueName:{0},message:{1}",queueName, message);
+        LOGGER.info("准备发送点对点消息，queueName:{},message:{}",queueName, message);
         Connection proCon = RmqConnection.getProducerConnection();
         Channel channel = null;
         try{
@@ -35,7 +35,7 @@ public class WorkQueueModel {
             queueDeclare(channel, queueName, durable);
             channel.basicPublish("", queueName, null, message.getBytes("UTF-8"));
         }catch (IOException e){
-            LOGGER.error("点对点消息发送失败，queueName:{0},message:{1}",queueName, message);
+            LOGGER.error("点对点消息发送失败，queueName:{},message:{}",queueName, message);
         }finally {
             try {
                 channel.close();
@@ -46,7 +46,7 @@ public class WorkQueueModel {
                 LOGGER.error("连接关闭失败，超时",e.getMessage());
             }
         }
-        LOGGER.info("点对点消息发送完成，queueName:{0},message:{1}",queueName, message);
+        LOGGER.info("点对点消息发送完成，queueName:{},message:{}",queueName, message);
     }
 
 
@@ -59,7 +59,7 @@ public class WorkQueueModel {
      * @param autoAck       自动确认消息
      */
     public static String workQueueReceive(String queueName, boolean durable, int prefetchCount, boolean autoAck) {
-        LOGGER.info("准备接收点对点消息，queueName:{0}",queueName);
+        LOGGER.info("准备接收点对点消息，queueName:{}",queueName);
         StringBuilder result = new StringBuilder();
 
         try{
@@ -79,7 +79,7 @@ public class WorkQueueModel {
             channel.basicConsume(queueName, autoAck, deliverCallback, consumerTag ->{});
 
         }catch (IOException e){
-            LOGGER.error("点对点消息接收失败，queueName:{0},message:{1}",queueName, result.toString());
+            LOGGER.error("点对点消息接收失败，queueName:{},message:{}",queueName, result.toString());
         }
         return result.toString();
     }

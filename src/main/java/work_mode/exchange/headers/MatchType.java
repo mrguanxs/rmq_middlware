@@ -1,4 +1,4 @@
-package work_mode.headers;
+package work_mode.exchange.headers;
 
 /**
  * @author Mr.Guan
@@ -6,7 +6,7 @@ package work_mode.headers;
  */
 public enum MatchType {
 
-    ALl("all"), ANY("any");
+    ALL("all"), ANY("any");
 
     private final String type;
 

@@ -1,4 +1,4 @@
-package work_mode.pub_sub;
+package work_mode.exchange.pub_sub;
 
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
@@ -26,7 +26,7 @@ public class PubSubModel {
      * @param message       消息内容
      */
     public static void fanoutSend(String exchangeName, String message) {
-        LOGGER.info("准备发送广播，exchangeName:{0},message:{1}",exchangeName, message);
+        LOGGER.info("准备发送广播，exchangeName:{},message:{}",exchangeName, message);
         Connection proCon = RmqConnection.getProducerConnection();
         Channel channel = null;
         try{
@@ -34,7 +34,7 @@ public class PubSubModel {
             channel.exchangeDeclare(exchangeName, BuiltinExchangeType.FANOUT);
             channel.basicPublish(exchangeName, "", null, message.getBytes("UTF-8"));
         }catch (IOException e){
-            LOGGER.error("广播发送失败，exchangeName:{0},message:{1}",exchangeName, message);
+            LOGGER.error("广播发送失败，exchangeName:{},message:{}",exchangeName, message);
         }finally {
             try {
                 channel.close();
@@ -45,7 +45,7 @@ public class PubSubModel {
                 LOGGER.error("连接关闭失败",e.getMessage());
             }
         }
-        LOGGER.info("广播发送完成，exchangeName:{0},message:{1}",exchangeName, message);
+        LOGGER.info("广播发送完成，exchangeName:{},message:{}",exchangeName, message);
     }
 
     /**
@@ -55,7 +55,7 @@ public class PubSubModel {
      * @param autoAck       自动确认消息
      */
     public static String fanoutReceive(String exchangeName, boolean autoAck) {
-        LOGGER.info("开始接收广播，exchangeName:{0}",exchangeName);
+        LOGGER.info("开始接收广播，exchangeName:{}",exchangeName);
         StringBuilder result = new StringBuilder();
 
         try{
@@ -77,7 +77,7 @@ public class PubSubModel {
             channel.basicConsume(queueName, autoAck, deliverCallback, consumerTag ->{});
 
         }catch (IOException e){
-            LOGGER.error("广播消息接收失败，exchangeName:{0},message:{1}",exchangeName, result.toString());
+            LOGGER.error("广播消息接收失败，exchangeName:{},message:{}",exchangeName, result.toString());
         }
         return result.toString();
     }

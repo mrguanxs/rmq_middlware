@@ -1,4 +1,4 @@
-package work_mode.headers;
+package work_mode.exchange.headers;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.BuiltinExchangeType;
@@ -30,7 +30,7 @@ public class HeadersModel {
      * @param message       消息内容
      */
     public static void headersSend(String exchangeName, Map<String, Object> headers, String message) {
-        LOGGER.info("准备发送headers消息，exchangeName:{0},headers:{1},message:{2}",exchangeName, headers.toString(), message);
+        LOGGER.info("准备发送headers消息，exchangeName:{},headers:{},message:{}",exchangeName, headers.toString(), message);
         Connection proCon = RmqConnection.getProducerConnection();
         Channel channel = null;
         try{
@@ -41,7 +41,7 @@ public class HeadersModel {
             properties.headers(headers);
             channel.basicPublish(exchangeName, "", properties.build(), message.getBytes("UTF-8"));
         }catch (IOException e){
-            LOGGER.error("headers消息发送失败，exchangeName:{0},message:{1}",exchangeName, message);
+            LOGGER.error("headers消息发送失败，exchangeName:{},message:{}",exchangeName, message);
         }finally {
             try {
                 channel.close();
@@ -52,7 +52,7 @@ public class HeadersModel {
                 LOGGER.error("headers连接关闭失败，超时",e.getMessage());
             }
         }
-        LOGGER.info("headers消息发送完成，exchangeName:{0},headers:{1},message:{2}",exchangeName, headers.toString(), message);
+        LOGGER.info("headers消息发送完成，exchangeName:{},headers:{},message:{}",exchangeName, headers.toString(), message);
     }
 
     /**
@@ -66,7 +66,7 @@ public class HeadersModel {
         Map<String,Object> matchHeaders = new Hashtable<>();
         matchHeaders.put("x-match", matchType.getType());
         matchHeaders.putAll(headers);
-        LOGGER.info("开始接收headers消息，exchangeName:{0},matchHeaders:{1}",exchangeName, matchHeaders.toString());
+        LOGGER.info("开始接收headers消息，exchangeName:{},matchHeaders:{}",exchangeName, matchHeaders.toString());
         StringBuilder result = new StringBuilder();
 
         try{
@@ -79,7 +79,8 @@ public class HeadersModel {
 
             //以对象形式提供回调，队列会异步的传递消息过来
             DeliverCallback deliverCallback =(consumerTag, delivery) -> {
-                result.append(new String(delivery.getBody(), "UTF-8"));
+                String message = new String(delivery.getBody(), "UTF-8");
+                result.append(message);
                 if(!autoAck) {
                     channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
                 }
@@ -88,7 +89,7 @@ public class HeadersModel {
             channel.basicConsume(queueName, autoAck, deliverCallback, consumerTag ->{});
 
         }catch (IOException e){
-            LOGGER.error("headers消息接收失败,exchangeName:{0},matchHeaders:{1}",exchangeName, matchHeaders.toString(), result.toString());
+            LOGGER.error("headers消息接收失败,exchangeName:{},matchHeaders:{}",exchangeName, matchHeaders.toString(), result.toString());
         }
         return result.toString();
     }
