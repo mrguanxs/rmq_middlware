@@ -12,7 +12,7 @@ public interface ExchangeType {
      */
     public static final String DIRECT = "direct";
 
-    public static final String TOPIC = "topic";
+    public static final String TOPIC = "demo/topic";
 
     public static final String HEADERS = "headers";
     /**

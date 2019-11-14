@@ -1,4 +1,4 @@
-package topic;
+package demo.topic;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -20,7 +20,7 @@ public class TopicReceiver {
         Connection connection = RmqConnection.getConsumerConnection();
         Channel channel = connection.createChannel();
 
-        channel.exchangeDeclare(TopicSender.EXCHANGE_NAME, "topic");
+        channel.exchangeDeclare(TopicSender.EXCHANGE_NAME, "demo/topic");
         String queueName = channel.queueDeclare().getQueue();
 
 

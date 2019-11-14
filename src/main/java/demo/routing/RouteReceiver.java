@@ -1,4 +1,4 @@
-package routing;
+package demo.routing;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;

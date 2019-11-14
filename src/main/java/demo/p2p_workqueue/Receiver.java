@@ -1,9 +1,7 @@
-package p2p_workqueue;
+package demo.p2p_workqueue;
 
 import com.rabbitmq.client.*;
 import connection.RmqConnection;
-
-import java.io.IOException;
 
 /**
  * @author mrguanxs@163.com
