@@ -12,13 +12,13 @@ import java.util.Map;
  */
 public class Headers {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         String exchangeName = "testHeaders";
-        Map<String,Object> headers = new Hashtable<>();
+        Map<String, Object> headers = new Hashtable<>();
         headers.put("aaa", "a1a1a1");
         headers.put("bbb", "b2b2b2");
-        HeadersModel.headersSend(exchangeName, headers, "hahahah");
+
         String receive = HeadersModel.headersReceive(exchangeName, headers, true, MatchType.ALL);
-        System.out.println("receive:" + receive);
+        HeadersModel.headersSend(exchangeName, headers, "hahahah");
     }
 }
