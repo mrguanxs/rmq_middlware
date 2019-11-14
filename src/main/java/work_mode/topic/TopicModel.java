@@ -1,9 +1,9 @@
-package rmq.topic;
+package work_mode.topic;
 
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DeliverCallback;
-import config.ExchangeType;
 import connection.RmqConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,15 +27,15 @@ public class TopicModel {
      * @param message       消息内容
      */
     public static void topicSend(String exchangeName, String routingKey, String message) {
-        LOGGER.info("准备发送订阅消息，exchangeName:{0},routingKey:{1},message:{2}",exchangeName, routingKey, message);
+        LOGGER.info("准备发送主题消息，exchangeName:{0},routingKey:{1},message:{2}",exchangeName, routingKey, message);
         Connection proCon = RmqConnection.getProducerConnection();
         Channel channel = null;
         try{
             channel = proCon.createChannel();
-            channel.exchangeDeclare(exchangeName, ExchangeType.TOPIC);
+            channel.exchangeDeclare(exchangeName, BuiltinExchangeType.TOPIC);
             channel.basicPublish(exchangeName, routingKey, null, message.getBytes("UTF-8"));
         }catch (IOException e){
-            LOGGER.error("订阅消息发送失败，exchangeName:{0},message:{1}",exchangeName, message);
+            LOGGER.error("主题消息发送失败，exchangeName:{0},message:{1}",exchangeName, message);
         }finally {
             try {
                 channel.close();
@@ -46,24 +46,24 @@ public class TopicModel {
                 LOGGER.error("主题连接关闭失败，超时",e.getMessage());
             }
         }
-        LOGGER.info("订阅消息发送完成，exchangeName:{0},routingKey:{1},message:{2}",exchangeName, routingKey, message);
+        LOGGER.info("主题消息发送完成，exchangeName:{0},routingKey:{1},message:{2}",exchangeName, routingKey, message);
     }
 
     /**
      *
-     * 接收广播
+     * 主题接收
      * @param exchangeName  交换机名称
      * @param routingKey    路由键（格式 *.*.*,一个.代表一段，*任意匹配一段，#任意匹配多段）
      * @param autoAck       自动确认消息
      */
     public static String topicReceive(String exchangeName, String routingKey, boolean autoAck) {
-        LOGGER.info("开始接收订阅消息，exchangeName:{0},routingKey:{1}",exchangeName, routingKey);
+        LOGGER.info("开始接收主题消息，exchangeName:{0},routingKey:{1}",exchangeName, routingKey);
         StringBuilder result = new StringBuilder();
 
         try{
             Connection consumerCon = RmqConnection.getConsumerConnection();
             Channel channel = consumerCon.createChannel();
-            channel.exchangeDeclare(exchangeName, ExchangeType.TOPIC);
+            channel.exchangeDeclare(exchangeName, BuiltinExchangeType.TOPIC);
 
             String queueName = channel.queueDeclare().getQueue();
             channel.queueBind(queueName, exchangeName, routingKey);
@@ -79,7 +79,7 @@ public class TopicModel {
             channel.basicConsume(queueName, autoAck, deliverCallback, consumerTag ->{});
 
         }catch (IOException e){
-            LOGGER.error("订阅消息接收失败,exchangeName:{0},routingKey:{1}",exchangeName, routingKey, result.toString());
+            LOGGER.error("主题消息接收失败,exchangeName:{0},routingKey:{1}",exchangeName, routingKey, result.toString());
         }
         return result.toString();
     }

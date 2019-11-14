@@ -1,5 +1,6 @@
 package demo.topic;
 
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import connection.RmqConnection;
@@ -18,7 +19,7 @@ public class TopicSender {
         Connection producerCon = RmqConnection.getProducerConnection();
         Channel channel = producerCon.createChannel();
 
-        channel.exchangeDeclare(EXCHANGE_NAME, "demo/topic");
+        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.TOPIC);
 
         String message = "这是ROUTINGKEY：" + ROUTINGKEY;
 

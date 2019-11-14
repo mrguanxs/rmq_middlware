@@ -1,9 +1,9 @@
 package demo.pub_sub;
 
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DeliverCallback;
-import config.ExchangeType;
 import connection.RmqConnection;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class Sub {
         Connection consumerCon = RmqConnection.getConsumerConnection();
 
         Channel channel = consumerCon.createChannel();
-        channel.exchangeDeclare(Pub.EXCHANGE_NAME, ExchangeType.FANOUT);
+        channel.exchangeDeclare(Pub.EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
         String queue = channel.queueDeclare().getQueue();
         channel.queueBind(queue, Pub.EXCHANGE_NAME, "");
 

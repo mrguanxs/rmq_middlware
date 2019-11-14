@@ -1,9 +1,9 @@
-package rmq.routing;
+package work_mode.routing;
 
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DeliverCallback;
-import config.ExchangeType;
 import connection.RmqConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class RoutingModel {
         Channel channel = null;
         try{
             channel = proCon.createChannel();
-            channel.exchangeDeclare(exchangeName, ExchangeType.DIRECT);
+            channel.exchangeDeclare(exchangeName, BuiltinExchangeType.DIRECT);
             channel.basicPublish(exchangeName, routingKey, null, message.getBytes("UTF-8"));
         }catch (IOException e){
             LOGGER.error("订阅消息发送失败，exchangeName:{0},message:{1}",exchangeName, message);
@@ -63,7 +63,7 @@ public class RoutingModel {
         try{
             Connection consumerCon = RmqConnection.getConsumerConnection();
             Channel channel = consumerCon.createChannel();
-            channel.exchangeDeclare(exchangeName, ExchangeType.DIRECT);
+            channel.exchangeDeclare(exchangeName, BuiltinExchangeType.DIRECT);
 
             String queueName = channel.queueDeclare().getQueue();
             channel.queueBind(queueName, exchangeName, routingKey);

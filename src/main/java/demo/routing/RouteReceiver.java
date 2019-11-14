@@ -1,9 +1,9 @@
 package demo.routing;
 
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DeliverCallback;
-import config.ExchangeType;
 import connection.RmqConnection;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class RouteReceiver {
         Connection consumerCon = RmqConnection.getConsumerConnection();
         Channel channel = consumerCon.createChannel();
 
-        channel.exchangeDeclare(RouteSender.EXCHANGE_NAME, ExchangeType.DIRECT);
+        channel.exchangeDeclare(RouteSender.EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
         String queueName = channel.queueDeclare().getQueue();
 
         channel.queueBind(queueName, RouteSender.EXCHANGE_NAME, RouteSender.ROUTE);

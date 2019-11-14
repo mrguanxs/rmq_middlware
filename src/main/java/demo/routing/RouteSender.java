@@ -1,8 +1,8 @@
 package demo.routing;
 
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
-import config.ExchangeType;
 import connection.RmqConnection;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class RouteSender {
     public static void main(String[] args) throws IOException {
         Connection producerCon = RmqConnection.getProducerConnection();
         Channel channel = producerCon.createChannel();
-        channel.exchangeDeclare(EXCHANGE_NAME, ExchangeType.DIRECT);
+        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
 
         String msg = "你订阅的是" + ROUTE + new Random().nextInt();
 

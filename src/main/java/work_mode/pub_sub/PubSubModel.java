@@ -1,9 +1,9 @@
-package rmq.pub_sub;
+package work_mode.pub_sub;
 
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DeliverCallback;
-import config.ExchangeType;
 import connection.RmqConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class PubSubModel {
         Channel channel = null;
         try{
             channel = proCon.createChannel();
-            channel.exchangeDeclare(exchangeName, ExchangeType.FANOUT);
+            channel.exchangeDeclare(exchangeName, BuiltinExchangeType.FANOUT);
             channel.basicPublish(exchangeName, "", null, message.getBytes("UTF-8"));
         }catch (IOException e){
             LOGGER.error("广播发送失败，exchangeName:{0},message:{1}",exchangeName, message);
@@ -61,7 +61,7 @@ public class PubSubModel {
         try{
             Connection consumerCon = RmqConnection.getConsumerConnection();
             Channel channel = consumerCon.createChannel();
-            channel.exchangeDeclare(exchangeName, ExchangeType.FANOUT);
+            channel.exchangeDeclare(exchangeName, BuiltinExchangeType.FANOUT);
 
             String queueName = channel.queueDeclare().getQueue();
             channel.queueBind(queueName, exchangeName, "");

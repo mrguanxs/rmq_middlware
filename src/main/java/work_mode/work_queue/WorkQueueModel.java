@@ -1,4 +1,4 @@
-package rmq.work_queue;
+package work_mode.work_queue;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;

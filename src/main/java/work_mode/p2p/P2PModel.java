@@ -1,8 +1,8 @@
-package rmq.p2p;
+package work_mode.p2p;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rmq.work_queue.WorkQueueModel;
+import work_mode.work_queue.WorkQueueModel;
 
 /**
  * @author Mr.Guan
