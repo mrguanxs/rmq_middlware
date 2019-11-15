@@ -3,7 +3,7 @@
 ### 一、quque方式
 **1. P2P(简单队列模式)**  
 
-    ![image](https://www.rabbitmq.com/img/tutorials/python-one.png)
+![image](https://www.rabbitmq.com/img/tutorials/python-one.png)
     
 一个生产者对应==一个==消费者，点对点发送
    - P 生产者
@@ -17,7 +17,7 @@
     
 **2. WORK QUEUE(竞争消费者模式)**   
 
-    ![image](https://www.rabbitmq.com/img/tutorials/python-two.png)
+![image](https://www.rabbitmq.com/img/tutorials/python-two.png)
 
 一个生产者对应==多个==消费者，一个消息只能被==一个==消费者消费      
     - 流程：同P2P，不同是一个队列被多个消费者监听
@@ -38,14 +38,14 @@
 **3. Publish/Subscribe(发布/订阅模式)**       
 **fanout**
 
-    ![image](https://www.rabbitmq.com/img/tutorials/python-three.png)
+![image](https://www.rabbitmq.com/img/tutorials/python-three.png)
 
 - 介绍：一个生产者将消息首先发送到交换器,消费者声明一个队列并与交换机绑定，接收所有该交换机的消息。 
 
 **4. Routing(路由订阅)**        
 **direct**
 
-    ![image](https://www.rabbitmq.com/img/tutorials/python-four.png)
+![image](https://www.rabbitmq.com/img/tutorials/python-four.png)
     
 - 介绍：一个生产者将消息首先发送到交换器,并声明可订阅的roukingKey(即图中的err,info等字符串),然后消费者声明一个队列与交换机绑定，并订阅该交换机routingKey的消息.
 - 与发布订阅模式相似,只不过发布/订阅是无意识广播,发送给所有绑定交换机的队列,路由订阅是根据路由键选择性订阅，稍微灵活一点
@@ -53,7 +53,7 @@
 **5. Topic(主题)**        
 **topic**
 
-    ![image](https://www.rabbitmq.com/img/tutorials/python-five.png)
+![image](https://www.rabbitmq.com/img/tutorials/python-five.png)
     
 - 介绍：一个生产者将消息首先发送到交换器,并声明可订阅的roukingKey(即图中的err,info等字符串),然后消费者声明一个队列与交换机绑定，并订阅该交换机routingKey的消息.
 - 与Routing模式相似,但是订阅要更加灵活，它的routingKey通过"."分割成若干段，可以通过"*"，"#"进行匹配
