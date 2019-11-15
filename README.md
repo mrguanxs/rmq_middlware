@@ -5,7 +5,7 @@
 
 ![image](https://www.rabbitmq.com/img/tutorials/python-one.png)
     
-一个生产者对应==一个==消费者，点对点发送
+一个生产者对应一个消费者，点对点发送
    - P 生产者
    - 队列
    - C 消费者  
@@ -19,7 +19,7 @@
 
 ![image](https://www.rabbitmq.com/img/tutorials/python-two.png)
 
-一个生产者对应==多个==消费者，一个消息只能被==一个==消费者消费      
+一个生产者对应多个消费者，一个消息只能被一个消费者消费      
     - 流程：同P2P，不同是一个队列被多个消费者监听
     - 应用场景：效率高的消费者消费消息多,可以用来进行负载均衡.
 
@@ -83,4 +83,4 @@ matchHeaders.put("abc", "hello");
 ```
 
 github地址:https://github.com/mrguanxs/rmq_middlware    
-待改进：消息不应该直接返回，而是应<font color='red'>在回掉中执行方法</font>
+待改进：消息不应该直接返回，而是应<font color='red'>在回调中执行方法</font>
