@@ -15,8 +15,8 @@ import java.util.Random;
  */
 public class RouteSender {
 
-    protected static final String EXCHANGE_NAME = "direct_logs";
-    protected static final String ROUTE = "debug";
+    protected static final String EXCHANGE_NAME = "zii.direct";
+    protected static final String ROUTE = "com.ziiforce.foundation.rabbitmq.eventbean.DemoEvent";
 
     public static void main(String[] args) throws IOException {
         Connection producerCon = RmqConnection.getProducerConnection();

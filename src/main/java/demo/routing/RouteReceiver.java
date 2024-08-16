@@ -20,7 +20,7 @@ public class RouteReceiver {
         Channel channel = consumerCon.createChannel();
 
         channel.exchangeDeclare(RouteSender.EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
-        String queueName = channel.queueDeclare().getQueue();
+        String queueName = channel.queueDeclarePassive("Demo.Event").getQueue();
 
         channel.queueBind(queueName, RouteSender.EXCHANGE_NAME, RouteSender.ROUTE);
         channel.queueBind(queueName, RouteSender.EXCHANGE_NAME, "debug");
